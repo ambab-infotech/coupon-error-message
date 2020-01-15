@@ -21,13 +21,7 @@
                     <depends> <field id="enable">1</field> </depends>
                     <comment>use shortcode %s to display the coupon code used by the customer</comment>
                 </field>
-                <field id="condition_fail" translate="label" type="text"
-                       sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Message when Coupon exist but do not apply to the rule conditions</label>
-                    <depends> <field id="enable">1</field> </depends>
-                    <comment>use shortcode %s to display the coupon code used by the customer</comment>
-                </field>
-                <field id="coupon_expired" translate="label" type="text"
+                   <field id="coupon_expired" translate="label" type="text"
                        sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Message when Coupon exist but is expired</label>
                     <depends> <field id="enable">1</field> </depends>
@@ -39,15 +33,21 @@
                     <depends> <field id="enable">1</field> </depends>
                     <comment>use shortcode %s to display the coupon code used by the customer</comment>
                 </field>
-                <field id="coupon_usages_customer_group" translate="label" type="text"
+                <field id="coupon_website_id" translate="label" type="text"
                        sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Message when coupon was used more than it can be used in customer group</label>
+                    <label>Message when coupon is not applicable on website</label>
                     <depends> <field id="enable">1</field> </depends>
                     <comment>use shortcode %s to display the coupon code used by the customer</comment>
                 </field>
-                 <field id="coupon_usages" translate="label" type="text"
+                <field id="coupon_usages" translate="label" type="text"
                        sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Message when coupon was used more than it can be used</label>
+                    <depends> <field id="enable">1</field> </depends>
+                    <comment>use shortcode %s to display the coupon code used by the customer</comment>
+                </field>
+                <field id="condition_fail" translate="label" type="text"
+                       sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Message when Coupon exist but do not apply to the rule conditions</label>
                     <depends> <field id="enable">1</field> </depends>
                     <comment>use shortcode %s to display the coupon code used by the customer</comment>
                 </field>

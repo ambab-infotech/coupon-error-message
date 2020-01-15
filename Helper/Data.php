@@ -27,42 +27,42 @@ class Data extends AbstractHelper
         
     /* * @return bool */
 
-    public function doCouponExits($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    public function isCouponExits($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_exist', $scope);
     }
 
     /* * @return bool */
 
-    public function doConditionFail($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    public function isConditionFail($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/condition_fail', $scope);
     }
 
     /* * @return bool */
 
-    public function doCouponExpired($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    public function isCouponExpired($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_expired', $scope);
     }
 
     /* * @return bool */
 
-    public function doCouponCustomerGroup($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    public function isCouponCustomerGroup($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_customer_group', $scope);
     }
 
     /* * @return bool */
 
-    public function doCouponUsageGroup($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    public function isCouponWebsite($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
-        return $this->scopeConfig->getValue('customcouponmsg/general/coupon_usages_customer_group', $scope);
+        return $this->scopeConfig->getValue('customcouponmsg/general/coupon_website_id', $scope);
     }
 
     /* * @return bool */
 
-    public function doCouponUsage($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    public function isCouponUsage($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_usages', $scope);
     }
