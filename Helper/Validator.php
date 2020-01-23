@@ -1,4 +1,5 @@
 <?php
+
 namespace Ambab\CustomCouponMsg\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -13,6 +14,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\SalesRule\Model\ResourceModel\Coupon\UsageFactory;
 use Magento\Framework\DataObjectFactory;
 use Magento\SalesRule\Model\Rule\CustomerFactory;
+use Magento\Quote\Model\Quote\Address;
 
 class Validator extends AbstractHelper
 {
@@ -51,6 +53,11 @@ class Validator extends AbstractHelper
      * @var \Magento\SalesRule\Model\Rule\CustomerFactory
      */
     protected $_customerFactory;
+
+    /**
+     * @var \Magento\Quote\Model\Quote\Item\AbstractItem
+     */
+    protected $_abstractItem;
      
 
     public function __construct(
@@ -64,7 +71,8 @@ class Validator extends AbstractHelper
         StoreManagerInterface $storeManager,
         UsageFactory $usage,
         DataObjectFactory $objectFactory,
-        CustomerFactory $customerFactory
+        CustomerFactory $customerFactory,
+        Address $address
     ) {
         parent::__construct($context);
         $this->_couponFactory = $couponFactory;
@@ -77,6 +85,7 @@ class Validator extends AbstractHelper
         $this->_usage = $usage;
         $this->_objectFactory = $objectFactory;
         $this->_customerFactory = $customerFactory;
+        $this->_address = $address;
     }
     
 
@@ -85,15 +94,7 @@ class Validator extends AbstractHelper
         $msg="";
         $coupon = $this->_couponFactory->create();
         $coupon->load($couponCode, 'code');
-        // echo "usagelimit".$coupon->getUsageLimit();
-        // echo 'timeused'.$coupon->getTimesUsed();
-        // exit();
-        //$couponCodeData = $this->_rule->create()->load($coupon->getruleId());
-        //echo "<pre>";
-        // print_r($couponCodeData->getData());
-        //exit();
         
-
         /* check if coupon exit or not*/
 
         if (empty($coupon->getData())) {
@@ -127,6 +128,9 @@ class Validator extends AbstractHelper
 
             //validate cart condition
             $couponCondition=$this->validateCondition($coupon);
+            if ($couponCondition) {
+                $msg=$this->_configData->isConditionFail();
+            }
         }
         $msg=str_replace("%s", $couponCode, $msg);
         //echo $msg;
@@ -223,6 +227,22 @@ class Validator extends AbstractHelper
                 }
             }
         }
+        return false;
+    }
+
+    /** check if coupon is validated condition
+    * @param String
+    * @return bool
+    *
+    **/
+    protected function validateCondition($coupon)
+    {
+        $rule= $this->_rule->create()->load($coupon->getruleId());
+        $address= $this->_address;
+        if (!$rule->validate($address)) {
+            return true;
+        }
+
         return false;
     }
 }

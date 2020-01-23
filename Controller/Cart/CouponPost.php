@@ -1,8 +1,23 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Ambab CustomCouponMsg Extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ambab
+ * @package     Ambab_CustomCouponMsg
+ * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Ambab\CustomCouponMsg\Controller\Cart;
 
 use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
@@ -29,6 +44,7 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
      * @var Validator
      */
     protected $couponValidator;
+    protected $configData;
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -39,7 +55,8 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
         \Magento\Checkout\Model\Cart $cart,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
-        \Ambab\CustomCouponMsg\Helper\Validator $couponValidator
+        \Ambab\CustomCouponMsg\Helper\Validator $couponValidator,
+        \Ambab\CustomCouponMsg\Helper\Data $configData
     ) {
         parent::__construct(
             $context,
@@ -54,6 +71,7 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
         //$this->couponFactory = $couponFactory;
         //$this->quoteRepository = $quoteRepository;
         $this->couponValidator = $couponValidator;
+        $this->configData = $configData;
     }
    
     public function execute()
@@ -71,9 +89,6 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
         }
 
         try {
-            // throw new \Magento\Framework\Exception\LocalizedException(__("Error Processing Request testing"), null);
-            
-
             $isCodeLengthValid = $codeLength && $codeLength <= \Magento\Checkout\Helper\Cart::COUPON_CODE_MAX_LENGTH;
 
             $itemsCount = $cartQuote->getItemsCount();
@@ -114,14 +129,19 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
                             )
                         );
                     } else {
-                        $msg=$this->couponValidator->validate($couponCode);
-                       
-                        $this->messageManager->addErrorMessage(
-                            __(
-                                '"%1"',
-                                $msg
-                            )
-                        );
+                        if ($this->configData->isEnabled()) {
+                            $msg=$this->couponValidator->validate($couponCode);
+                            $this->messageManager->addErrorMessage(
+                                __('"%1"', $msg)
+                            );
+                        } else {
+                            $this->messageManager->addSuccessMessage(
+                                __(
+                                    'You used coupon code "%1".',
+                                    $escaper->escapeHtml($couponCode)
+                                )
+                            );
+                        }
                     }
                 }
             } else {
@@ -130,8 +150,6 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
-            echo $e;
-            exit();
             $this->messageManager->addErrorMessage(__('We cannot apply the coupon code.'));
             $this->_objectManager->get(\Psr\Log\LoggerInterface::class)->critical($e);
         }
