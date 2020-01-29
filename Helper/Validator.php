@@ -1,5 +1,24 @@
 <?php
 
+/**
+ * Ambab CustomCouponMsg Extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ambab
+ * @package     Ambab_CustomCouponMsg
+ * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+
 namespace Ambab\CustomCouponMsg\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -99,6 +118,8 @@ class Validator extends AbstractHelper
 
         if (empty($coupon->getData())) {
             $msg=$this->_configData->isCouponExits();
+            $msg=str_replace("%s", $couponCode, $msg);
+            return $msg;
         } else {
 
             // check for coupon expiry
@@ -106,44 +127,49 @@ class Validator extends AbstractHelper
             $couponExpiry = $this->checkExpiry($coupon->getexpirationDate());
             if ($couponExpiry) {
                 $msg=$this->_configData->isCouponExpired();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             //validation for customer group
             $couponCustomerGroup = $this->validateCustomerGroup($coupon->getruleId());
             if ($couponCustomerGroup) {
                 $msg=$this->_configData->isCouponCustomerGroup();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             // validation for website
             $couponWebsite = $this->validateCurrentWebsite($coupon->getruleId());
             if ($couponWebsite) {
                 $msg=$this->_configData->isCouponWebsite();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             //validate the number of usages
             $couponUsages = $this->validateCouponUsages($coupon);
             if ($couponUsages) {
                 $msg=$this->_configData->isCouponUsage();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             //validate cart condition
             $couponCondition=$this->validateCondition($coupon);
             if ($couponCondition) {
                 $msg=$this->_configData->isConditionFail();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
         }
-        $msg=str_replace("%s", $couponCode, $msg);
-        //echo $msg;
-        //exit();
-        //$msg = "called";
-        return $msg;
     }
 
     /** check if coupon is expired or not
-    *
-    * @return bool
-    *
-    **/
+     *
+     * @return bool
+     *
+     **/
     protected function checkExpiry($couponDate)
     {
         $now = $this->_date->date()->format('Y-m-d');
@@ -154,10 +180,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is assigned to current customer group
-    * @param integer
-    * @return bool
-    *
-    **/
+     * @param integer
+     * @return bool
+     *
+     **/
     protected function validateCustomerGroup($ruleId)
     {
         $customerGroup=0;
@@ -174,10 +200,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is applicable for current website
-    * @param integer
-    * @return bool
-    *
-    **/
+     * @param integer
+     * @return bool
+     *
+     **/
     protected function validateCurrentWebsite($ruleId)
     {
         $currentWebsite=$this->_storeManager->getStore()->getWebsiteId();
@@ -190,10 +216,10 @@ class Validator extends AbstractHelper
     }
 
     /** check coupon usages
-    * @param Object
-    * @return bool
-    *
-    **/
+     * @param Object
+     * @return bool
+     *
+     **/
     protected function validateCouponUsages($coupon)
     {
         // check entire usage limit
@@ -231,10 +257,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is validated condition
-    * @param String
-    * @return bool
-    *
-    **/
+     * @param String
+     * @return bool
+     *
+     **/
     protected function validateCondition($coupon)
     {
         $rule= $this->_rule->create()->load($coupon->getruleId());

@@ -27,16 +27,25 @@ use Ambab\CustomCouponMsg\Helper\Data as ConfigData;
 class CheckoutCouponApply
 {
     /**
-     * Quote repository.
+     * Module Helper
      *
-     * @var \Magento\Quote\Api\CartRepositoryInterface
+     * @var \Ambab\CustomCouponMsg\Helper\Validator
      */
+
     protected $_couponValidator;
+    /**
+     * Module helper
+     *
+     * @var \Ambab\CustomCouponMsg\Helper\Data
+     */
+    protected $_configData;
+
     public function __construct(
         CouponValidator $couponValidator,
         ConfigData $configData
     ) {
         $this->_couponValidator = $couponValidator;
+        $this->_configData =$configData;
     }
 
     public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
