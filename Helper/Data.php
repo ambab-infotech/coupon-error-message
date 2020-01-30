@@ -1,6 +1,6 @@
 <?php
 /**
- * Ambab CustomCouponMsg Extension
+ * Ambab CouponErrorMessage Extension
  *
  * NOTICE OF LICENSE
  *
@@ -13,12 +13,12 @@
  * version in the future.
  *
  * @category    Ambab
- * @package     Ambab_CustomCouponMsg
+ * @package     Ambab_CouponErrorMessage
  * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
  * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Ambab\CustomCouponMsg\Helper;
+namespace Ambab\CouponErrorMessage\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
@@ -37,49 +37,63 @@ class Data extends AbstractHelper
         $this->encryptor = $encryptor;
     }
 
-    /* * @return bool */
+    /**
+    * @return bool
+    */
     public function isEnabled($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->isSetFlag('customcouponmsg/general/enable', $scope);
     }
 
         
-    /* * @return bool */
+    /**
+    * @return string
+    */
 
     public function isCouponExits($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_exist', $scope);
     }
 
-    /* * @return bool */
+    /**
+    * @return string
+    */
 
     public function isConditionFail($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/condition_fail', $scope);
     }
 
-    /* * @return bool */
+    /**
+    * @return string
+    */
 
     public function isCouponExpired($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_expired', $scope);
     }
 
-    /* * @return bool */
+    /**
+    * @return string
+    */
 
     public function isCouponCustomerGroup($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_customer_group', $scope);
     }
 
-    /* * @return bool */
+    /**
+    * @return string
+    */
 
     public function isCouponWebsite($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue('customcouponmsg/general/coupon_website_id', $scope);
     }
 
-    /* * @return bool */
+    /**
+    * @return string
+    */
 
     public function isCouponUsage($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {

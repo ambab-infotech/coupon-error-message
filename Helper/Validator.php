@@ -14,17 +14,17 @@
  * version in the future.
  *
  * @category    Ambab
- * @package     Ambab_CustomCouponMsg
+ * @package     Ambab_CuoponErrorMessage
  * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
  * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Ambab\CustomCouponMsg\Helper;
+namespace Ambab\CouponErrorMessage\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\SalesRule\Model\CouponFactory;
-use Ambab\CustomCouponMsg\Helper\Data as ConfigData ;
+use Ambab\CouponErrorMessage\Helper\Data as ConfigData ;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Model\Session as CustomerSession;

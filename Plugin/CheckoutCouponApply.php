@@ -18,25 +18,25 @@
  * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Ambab\CustomCouponMsg\Plugin;
+namespace Ambab\CouponErrorMessage\Plugin;
 
 use Magento\Framework\Exception\LocalizedException;
-use Ambab\CustomCouponMsg\Helper\Validator as CouponValidator;
-use Ambab\CustomCouponMsg\Helper\Data as ConfigData;
+use Ambab\CouponErrorMessage\Helper\Validator as CouponValidator;
+use Ambab\CouponErrorMessage\Helper\Data as ConfigData;
 
 class CheckoutCouponApply
 {
     /**
      * Module Helper
      *
-     * @var \Ambab\CustomCouponMsg\Helper\Validator
+     * @var \Ambab\CouponErrorMessage\Helper\Validator
      */
 
     protected $_couponValidator;
     /**
      * Module helper
      *
-     * @var \Ambab\CustomCouponMsg\Helper\Data
+     * @var \Ambab\CouponErrorMessage\Helper\Data
      */
     protected $_configData;
 

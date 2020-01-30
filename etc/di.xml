@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-<preference for="Magento\Checkout\Controller\Cart\CouponPost" type="Ambab\CustomCouponMsg\Controller\Cart\CouponPost" />
+<preference for="Magento\Checkout\Controller\Cart\CouponPost" type="Ambab\CouponErrorMessage\Controller\Cart\CouponPost" />
 <type name="Magento\Quote\Model\CouponManagement">
-    <plugin name="checkout_coupon_apply" type="Ambab\CustomCouponMsg\Plugin\CheckoutCouponApply"/> 
+    <plugin name="checkout_coupon_apply" type="Ambab\CouponErrorMessage\Plugin\CheckoutCouponApply"/> 
 </type>
 </config>

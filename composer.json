@@ -1,5 +1,5 @@
 {
- "name": "ambab/module-customcouponmsg",
+ "name": "ambab/module-couponerrormessage",
  "description": "Custom Coupon error message extension",
  "type": "magento2-module",
  "version": "1.0.0",
@@ -26,7 +26,7 @@
      "registration.php"
    ],
    "psr-4": {
-     "Ambab\\CustomCoupounMsg\\": ""
+     "Ambab\\CouponErrorMessage\\": ""
    }
  }
 }
