@@ -44,6 +44,7 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
      * @var Validator
      */
     protected $couponValidator;
+    
     protected $configData;
 
     public function __construct(
