@@ -88,7 +88,6 @@ class Validator extends AbstractHelper
 
     protected $_serialize;
      
-
     public function __construct(
         Context $context,
         CouponFactory $couponFactory,
@@ -119,11 +118,6 @@ class Validator extends AbstractHelper
         // $this->_serialize = $serialize;
     }
     
-
-
-
-    
-
     public function validate($couponCode)
     {
         $msg="";

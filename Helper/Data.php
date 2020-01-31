@@ -53,7 +53,6 @@ class Data extends AbstractHelper
         return $this->scopeConfig->isSetFlag(self::ERRORMESSAGE_ENABLED, $scope);
     }
 
-        
     /**
      * @return string
      */
