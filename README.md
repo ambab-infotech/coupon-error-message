@@ -77,13 +77,3 @@ For issues please raise here https://github.com/ambab-infotech/couponerromessage
 
 In case of additional support feel free to reach out at tech.support@ambab.com
 
-
-
-
-
-
-# Ambab Custom Coupon Error Message
-A simple extension for magento 2.
-
-## What Is Ambab Custom Coupon Error Message?
-

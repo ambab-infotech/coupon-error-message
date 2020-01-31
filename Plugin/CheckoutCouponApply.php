@@ -54,7 +54,7 @@ class CheckoutCouponApply
     public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
     {
         if ($this->_configData->isEnabled()) {
-            $msg= $this->_couponValidator->validate($couponCode);
+            $msg = $this->_couponValidator->validate($couponCode);
             if (!empty($msg)) {
                 throw new LocalizedException(__("%l", $msg));
             }

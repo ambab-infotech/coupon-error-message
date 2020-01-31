@@ -89,7 +89,6 @@ class Data extends AbstractHelper
     /**
     * @return string
     */
-
     public function isCouponWebsite($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::COUPON_WEBSITE_ID, $scope);

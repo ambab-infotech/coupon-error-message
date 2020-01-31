@@ -133,8 +133,8 @@ class Validator extends AbstractHelper
         /* check if coupon exit or not*/
 
         if (empty($coupon->getData())) {
-            $msg=$this->_configData->isCouponExits();
-            $msg=str_replace("%s", $couponCode, $msg);
+            $msg = $this->_configData->isCouponExits();
+            $msg = str_replace("%s", $couponCode, $msg);
             return $msg;
         } else {
 
@@ -142,37 +142,37 @@ class Validator extends AbstractHelper
             
             $couponExpiry = $this->checkExpiry($coupon->getexpirationDate());
             if ($couponExpiry) {
-                $msg=$this->_configData->isCouponExpired();
-                $msg=str_replace("%s", $couponCode, $msg);
+                $msg = $this->_configData->isCouponExpired();
+                $msg = str_replace("%s", $couponCode, $msg);
                 return $msg;
             }
 
             //validation for customer group
             $couponCustomerGroup = $this->validateCustomerGroup($coupon->getruleId());
             if ($couponCustomerGroup) {
-                $msg=$this->_configData->isCouponCustomerGroup();
-                $msg=str_replace("%s", $couponCode, $msg);
+                $msg = $this->_configData->isCouponCustomerGroup();
+                $msg = str_replace("%s", $couponCode, $msg);
                 return $msg;
             }
 
             // validation for website
             $couponWebsite = $this->validateCurrentWebsite($coupon->getruleId());
             if ($couponWebsite) {
-                $msg=$this->_configData->isCouponWebsite();
-                $msg=str_replace("%s", $couponCode, $msg);
+                $msg = $this->_configData->isCouponWebsite();
+                $msg = str_replace("%s", $couponCode, $msg);
                 return $msg;
             }
 
             //validate the number of usages
             $couponUsages = $this->validateCouponUsages($coupon);
             if ($couponUsages) {
-                $msg=$this->_configData->isCouponUsage();
-                $msg=str_replace("%s", $couponCode, $msg);
+                $msg = $this->_configData->isCouponUsage();
+                $msg = str_replace("%s", $couponCode, $msg);
                 return $msg;
             }
 
             //validate cart condition
-            $couponCondition=$this->validateCondition($coupon);
+            $couponCondition = $this->validateCondition($coupon);
             if ($couponCondition) {
                 $msg=$this->_configData->isConditionFail();
                 $msg=str_replace("%s", $couponCode, $msg);
@@ -202,11 +202,11 @@ class Validator extends AbstractHelper
     **/
     protected function validateCustomerGroup($ruleId)
     {
-        $customerGroup=0;
+        $customerGroup = 0;
         $couponCodeData = $this->_rule->create()->load($ruleId);
 
         if ($this->_customerSession->isLoggedIn()) {
-            $customerGroup=$this->_customerSession->getCustomer()->getGroupId();
+            $customerGroup = $this->_customerSession->getCustomer()->getGroupId();
         }
         if (!in_array($customerGroup, $couponCodeData->getCustomerGroupIds())) {
             return true;
@@ -222,7 +222,7 @@ class Validator extends AbstractHelper
     **/
     protected function validateCurrentWebsite($ruleId)
     {
-        $currentWebsite=$this->_storeManager->getStore()->getWebsiteId();
+        $currentWebsite = $this->_storeManager->getStore()->getWebsiteId();
         $couponCodeData = $this->_rule->create()->load($ruleId);
         if (!in_array($currentWebsite, $couponCodeData->getWebsiteIds())) {
             return true;
@@ -257,7 +257,7 @@ class Validator extends AbstractHelper
                 return true;
             }
         }
-        $rule= $this->_rule->create()->load($coupon->getruleId());
+        $rule = $this->_rule->create()->load($coupon->getruleId());
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             /** @var \Magento\SalesRule\Model\Rule\Customer $ruleCustomer */
@@ -279,8 +279,8 @@ class Validator extends AbstractHelper
     **/
     protected function validateCondition(\Magento\SalesRule\Model\CouponFactory $coupon)
     {
-        $rule= $this->_rule->create()->load($coupon->getruleId());
-        $address= $this->_address;
+        $rule = $this->_rule->create()->load($coupon->getruleId());
+        $address = $this->_address;
         if (!$rule->validate($address)) {
             return true;
         }
