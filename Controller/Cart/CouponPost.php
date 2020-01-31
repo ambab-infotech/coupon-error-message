@@ -134,9 +134,9 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
                                 __('%1', $msg)
                             );
                         } else {
-                            $this->messageManager->addSuccessMessage(
+                            $this->messageManager->addErrorMessage(
                                 __(
-                                    'You used coupon code "%1".',
+                                    'The coupon code "%1" is not valid.',
                                     $escaper->escapeHtml($couponCode)
                                 )
                             );
