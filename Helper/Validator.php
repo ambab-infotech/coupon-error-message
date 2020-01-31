@@ -281,7 +281,7 @@ class Validator extends AbstractHelper
     {
         $rule = $this->_rule->create()->load($coupon->getruleId());
         $address = $this->_address;
-        if (!$rule->validate($address)) {
+        if (!empty($address) && !$rule->validate($address)) {
             return true;
         }
 
