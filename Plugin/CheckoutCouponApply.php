@@ -1,6 +1,6 @@
 <?php
 /**
- * Ambab CustomCouponMsg Extension
+ * Ambab CouponErrorMessage Extension
  *
  * NOTICE OF LICENSE
  *
@@ -13,37 +13,49 @@
  * version in the future.
  *
  * @category    Ambab
- * @package     Ambab_CustomCouponMsg
+ * @package     Ambab_CouponErrorMessage
  * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
  * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Ambab\CustomCouponMsg\Plugin;
+namespace Ambab\CouponErrorMessage\Plugin;
 
 use Magento\Framework\Exception\LocalizedException;
-use Ambab\CustomCouponMsg\Helper\Validator as CouponValidator;
-use Ambab\CustomCouponMsg\Helper\Data as ConfigData;
+use Ambab\CouponErrorMessage\Helper\Validator as CouponValidator;
+use Ambab\CouponErrorMessage\Helper\Data as ConfigData;
 
 class CheckoutCouponApply
 {
     /**
-     * Quote repository.
+     * Module Helper
      *
-     * @var \Magento\Quote\Api\CartRepositoryInterface
+     * @var \Ambab\CouponErrorMessage\Helper\Validator
      */
+
     protected $_couponValidator;
+    /**
+     * Module helper
+     *
+     * @var \Ambab\CouponErrorMessage\Helper\Data
+     */
+    protected $_configData;
+
     public function __construct(
         CouponValidator $couponValidator,
         ConfigData $configData
     ) {
         $this->_couponValidator = $couponValidator;
+        $this->_configData =$configData;
     }
 
+    /**
+    * this function runs before set for coupon api
+    */
     public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
     {
         if ($this->_configData->isEnabled()) {
             $msg= $this->_couponValidator->validate($couponCode);
-            if ($msg != '') {
+            if (!empty($msg)) {
                 throw new LocalizedException(__("%l", $msg));
             }
         }

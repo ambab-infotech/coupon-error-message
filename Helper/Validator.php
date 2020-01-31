@@ -1,11 +1,29 @@
 <?php
+/**
+ * Ambab CouponErrorMessage Extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ambab
+ * @package     Ambab_CouponErrorMessage
+ * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
 
-namespace Ambab\CustomCouponMsg\Helper;
+namespace Ambab\CouponErrorMessage\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\SalesRule\Model\CouponFactory;
-use Ambab\CustomCouponMsg\Helper\Data as ConfigData ;
+use Ambab\CouponErrorMessage\Helper\Data as ConfigData ;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Model\Session as CustomerSession;
@@ -15,6 +33,8 @@ use Magento\SalesRule\Model\ResourceModel\Coupon\UsageFactory;
 use Magento\Framework\DataObjectFactory;
 use Magento\SalesRule\Model\Rule\CustomerFactory;
 use Magento\Quote\Model\Quote\Address;
+
+//use Magento\Framework\Serialize\Serializer\Json;
 
 class Validator extends AbstractHelper
 {
@@ -58,6 +78,15 @@ class Validator extends AbstractHelper
      * @var \Magento\Quote\Model\Quote\Item\AbstractItem
      */
     protected $_abstractItem;
+
+    /**
+     * Array of conditions attached to the current rule.
+     *
+     * @var array
+     */
+    protected $_conditions = [];
+
+    protected $_serialize;
      
 
     public function __construct(
@@ -73,6 +102,7 @@ class Validator extends AbstractHelper
         DataObjectFactory $objectFactory,
         CustomerFactory $customerFactory,
         Address $address
+       // Json $serialize
     ) {
         parent::__construct($context);
         $this->_couponFactory = $couponFactory;
@@ -86,7 +116,12 @@ class Validator extends AbstractHelper
         $this->_objectFactory = $objectFactory;
         $this->_customerFactory = $customerFactory;
         $this->_address = $address;
+        // $this->_serialize = $serialize;
     }
+    
+
+
+
     
 
     public function validate($couponCode)
@@ -99,6 +134,8 @@ class Validator extends AbstractHelper
 
         if (empty($coupon->getData())) {
             $msg=$this->_configData->isCouponExits();
+            $msg=str_replace("%s", $couponCode, $msg);
+            return $msg;
         } else {
 
             // check for coupon expiry
@@ -106,37 +143,42 @@ class Validator extends AbstractHelper
             $couponExpiry = $this->checkExpiry($coupon->getexpirationDate());
             if ($couponExpiry) {
                 $msg=$this->_configData->isCouponExpired();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             //validation for customer group
             $couponCustomerGroup = $this->validateCustomerGroup($coupon->getruleId());
             if ($couponCustomerGroup) {
                 $msg=$this->_configData->isCouponCustomerGroup();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             // validation for website
             $couponWebsite = $this->validateCurrentWebsite($coupon->getruleId());
             if ($couponWebsite) {
                 $msg=$this->_configData->isCouponWebsite();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             //validate the number of usages
             $couponUsages = $this->validateCouponUsages($coupon);
             if ($couponUsages) {
                 $msg=$this->_configData->isCouponUsage();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
 
             //validate cart condition
             $couponCondition=$this->validateCondition($coupon);
             if ($couponCondition) {
                 $msg=$this->_configData->isConditionFail();
+                $msg=str_replace("%s", $couponCode, $msg);
+                return $msg;
             }
         }
-        $msg=str_replace("%s", $couponCode, $msg);
-        //echo $msg;
-        //exit();
-        //$msg = "called";
-        return $msg;
     }
 
     /** check if coupon is expired or not
@@ -190,11 +232,11 @@ class Validator extends AbstractHelper
     }
 
     /** check coupon usages
-    * @param Object
+    * @param Magento\SalesRule\Model\CouponFactory
     * @return bool
     *
     **/
-    protected function validateCouponUsages($coupon)
+    protected function validateCouponUsages(\Magento\SalesRule\Model\CouponFactory $coupon)
     {
         // check entire usage limit
         if ($coupon->getUsageLimit() && $coupon->getTimesUsed() >= $coupon->getUsageLimit()) {
@@ -231,11 +273,11 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is validated condition
-    * @param String
+    * @param Magento\SalesRule\Model\CouponFactory
     * @return bool
     *
     **/
-    protected function validateCondition($coupon)
+    protected function validateCondition(\Magento\SalesRule\Model\CouponFactory $coupon)
     {
         $rule= $this->_rule->create()->load($coupon->getruleId());
         $address= $this->_address;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Ambab CustomCouponMsg Extension
+ * Ambab CouponErrorMessage Extension
  *
  * NOTICE OF LICENSE
  *
@@ -13,12 +13,12 @@
  * version in the future.
  *
  * @category    Ambab
- * @package     Ambab_CustomCouponMsg
+ * @package     Ambab_CouponErrorMessage
  * @copyright   Copyright (c) 2019 Ambab (https://www.ambab.com/)
  * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Ambab\CustomCouponMsg\Controller\Cart;
+namespace Ambab\CouponErrorMessage\Controller\Cart;
 
 use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
 
@@ -55,8 +55,8 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
         \Magento\Checkout\Model\Cart $cart,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
-        \Ambab\CustomCouponMsg\Helper\Validator $couponValidator,
-        \Ambab\CustomCouponMsg\Helper\Data $configData
+        \Ambab\CouponErrorMessage\Helper\Validator $couponValidator,
+        \Ambab\CouponErrorMessage\Helper\Data $configData
     ) {
         parent::__construct(
             $context,
@@ -68,8 +68,6 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
             $couponFactory,
             $quoteRepository
         );
-        //$this->couponFactory = $couponFactory;
-        //$this->quoteRepository = $quoteRepository;
         $this->couponValidator = $couponValidator;
         $this->configData = $configData;
     }

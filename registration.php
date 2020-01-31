@@ -4,6 +4,6 @@ use Magento\Framework\Component\ComponentRegistrar;
 
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
-    'Ambab_CustomCouponMsg',
+    'Ambab_CouponErrorMessage',
     __DIR__
 );

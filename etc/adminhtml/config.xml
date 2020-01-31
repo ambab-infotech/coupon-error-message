@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <customcouponmsg>
+            <general>
+                <enable>0</enable>
+                <coupon_exist>'%s' coupon code is not valid</coupon_exist>
+                <coupon_expired>coupon '%s' is expired</coupon_expired>
+                <coupon_customer_group>'%s' coupon is not applicable for your customer group</coupon_customer_group>
+                <coupon_website_id>Not applicale on the current website store</coupon_website_id>
+                <coupon_usages>'%s' exceeded the number usages</coupon_usages>
+                <condition_fail>This coupon don't fulfill the coupon condition</condition_fail>
+            </general>
+        </customcouponmsg>
+    </default>
+</config>
