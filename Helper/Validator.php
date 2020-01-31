@@ -113,13 +113,13 @@ class Validator extends AbstractHelper
         $this->_customerFactory = $customerFactory;
         $this->_address = $address;
     }
+
     /**
      * Validate the coupon code
      *
-     * @param str $couponCode
+     * @param string $couponCode
      * @return bool
      **/
-    
     public function validate($couponCode)
     {
         $msg="";
@@ -215,7 +215,7 @@ class Validator extends AbstractHelper
     /**
      * Check if coupon is applicable for current website
      *
-     * @param ruleId
+     * @param int ruleId
      * @return bool
      **/
     protected function validateCurrentWebsite($ruleId)

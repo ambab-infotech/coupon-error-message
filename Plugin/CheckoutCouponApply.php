@@ -45,13 +45,16 @@ class CheckoutCouponApply
         ConfigData $configData
     ) {
         $this->_couponValidator = $couponValidator;
-        $this->_configData =$configData;
+        $this->_configData = $configData;
     }
 
     /**
-     * This function runs before set for coupon api
+     * This function runs before set for coupon api, will validate coupon
      *
-     * @param \Magento\Quote\Model\CouponManagement $subject,$cartId,$couponCode
+     * @param \Magento\Quote\Model\CouponManagement $subject
+     * @param int $cartId
+     * @param string $couponCode
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
     {

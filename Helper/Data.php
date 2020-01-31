@@ -39,11 +39,11 @@ class Data extends AbstractHelper
      * @var EncryptorInterface
      */
     protected $encryptor;
+
     /**
      * @param Context $context
      * @param EncryptorInterface $encryptor
      */
-
     public function __construct(Context $context, EncryptorInterface $encryptor)
     {
         parent::__construct($context);
