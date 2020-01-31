@@ -8,15 +8,19 @@ Coupon Error Message extension for Magento 2 solves that and more. The extension
 
 ## Features
 
-- Admin can add custom error messages of coupon validation when Coupon does not exist.
-- - Admin can add custom error messages of coupon validation when Coupon does not exist.
-- 
-1. Message when Coupon does not exist
-2. Message when Coupon exist but is expired
-3. Customer doesn't belong to assigned customer group
-4.Message when coupon is not applicable on website
-5.Message when coupon was used more than it can be used
-"6Message when Coupon exist but do not apply to the rule conditions	"
+- Admin can set Enable/ Disable flag.
+
+- Admin can set error message when coupon does not exist.
+
+- Admin can set error message when coupon exist but is expired.
+
+- Admin can set error message when customer doesn't belong to assigned customer group.
+
+- Admin can set error message when coupon is not applicable on website.
+
+- Admin can set error message when coupon was used more than it can be used.
+
+- Admin can set error message when coupon exist but do not apply to the cart rule conditions.
 
 - 100% open source.
 
@@ -71,15 +75,15 @@ Coupon Error Message extension for Magento 2 solves that and more. The extension
 
 ## Configurations
 
-Go to Admin -> Stores -> Configuration -> **Select store view** -> Ambab -> Custom Coupon Error Message
+Go to Admin -> Stores -> Configuration -> Ambab -> Coupon Error Message
 
 
 ## Contribute
 
-Feel free to fork and contribute to this module by creating a PR to master branch (https://github.com/ambab-infotech/couponerromessage).
+Feel free to fork and contribute to this module by creating a PR to master branch (https://github.com/ambab-infotech/coupon-error-message).
 
 ## Support
 
-For issues please raise here https://github.com/ambab-infotech/couponerromessage/issues
+For issues please raise here https://github.com/ambab-infotech/coupon-error-message/issues
 
 In case of additional support feel free to reach out at tech.support@ambab.com
