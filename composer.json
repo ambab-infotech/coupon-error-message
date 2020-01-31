@@ -1,6 +1,6 @@
 {
  "name": "ambab/module-couponerrormessage",
- "description": "Custom Coupon error message extension",
+ "description": "Coupon Error Message extension",
  "type": "magento2-module",
  "version": "1.0.0",
  "license": [
@@ -11,6 +11,7 @@
    "magento 2",
    "ambab",
    "custom error message",
+   "coupon error message",
    "custom coupon error message"
  ],
  "authors": [

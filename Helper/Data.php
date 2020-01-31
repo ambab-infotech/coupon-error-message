@@ -36,14 +36,14 @@ class Data extends AbstractHelper
     const COUPON_USAGES    = 'couponerrormessage/general/coupon_usages';
 
     /**
-    * @var EncryptorInterface
-    */
+     * @var EncryptorInterface
+     */
     protected $encryptor;
-    /**
-    * @param Context $context
-    * @param EncryptorInterface $encryptor
-    */
 
+    /**
+     * @param Context $context
+     * @param EncryptorInterface $encryptor
+     */
     public function __construct(Context $context, EncryptorInterface $encryptor)
     {
         parent::__construct($context);
