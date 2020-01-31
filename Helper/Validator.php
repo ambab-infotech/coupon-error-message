@@ -114,11 +114,11 @@ class Validator extends AbstractHelper
         $this->_address = $address;
     }
     /**
-    * Validate the coupon code
-    *
-    * @param str $couponCode
-    * @return bool
-    **/
+     * Validate the coupon code
+     *
+     * @param str $couponCode
+     * @return bool
+     **/
     
     public function validate($couponCode)
     {
