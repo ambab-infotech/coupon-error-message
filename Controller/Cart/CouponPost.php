@@ -131,7 +131,7 @@ class CouponPost extends \Magento\Checkout\Controller\Cart\CouponPost
                         if ($this->configData->isEnabled()) {
                             $msg=$this->couponValidator->validate($couponCode);
                             $this->messageManager->addErrorMessage(
-                                __('"%1"', $msg)
+                                __('%1', $msg)
                             );
                         } else {
                             $this->messageManager->addSuccessMessage(
