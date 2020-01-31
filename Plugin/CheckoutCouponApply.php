@@ -49,7 +49,9 @@ class CheckoutCouponApply
     }
 
     /**
-     * this function runs before set for coupon api
+     * This function runs before set for coupon api
+     *
+     * @param \Magento\Quote\Model\CouponManagement $subject,$cartId,$couponCode
      */
     public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
     {

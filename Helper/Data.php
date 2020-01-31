@@ -27,17 +27,22 @@ use Magento\Framework\Encryption\EncryptorInterface;
 
 class Data extends AbstractHelper
 {
-    const ERRORMESSAGE_ENABLED    = 'customcouponmsg/general/enable';
-    const COUPON_EXIST    = 'customcouponmsg/general/coupon_exist';
-    const CONDTION_FAILED    = 'customcouponmsg/general/condition_fail';
-    const COUPON_EXPIRED    = 'customcouponmsg/general/coupon_expired';
-    const COUPON_CUSTOMER_GROUP    = 'customcouponmsg/general/coupon_customer_group';
-    const COUPON_WEBSITE_ID    = 'customcouponmsg/general/coupon_website_id';
-    const COUPON_USAGES    = 'customcouponmsg/general/coupon_usages';
+    const ERRORMESSAGE_ENABLED    = 'couponerrormessage/general/enable';
+    const COUPON_EXIST    = 'couponerrormessage/general/coupon_exist';
+    const CONDTION_FAILED    = 'couponerrormessage/general/condition_fail';
+    const COUPON_EXPIRED    = 'couponerrormessage/general/coupon_expired';
+    const COUPON_CUSTOMER_GROUP    = 'couponerrormessage/general/coupon_customer_group';
+    const COUPON_WEBSITE_ID    = 'couponerrormessage/general/coupon_website_id';
+    const COUPON_USAGES    = 'couponerrormessage/general/coupon_usages';
 
-    /** * @var EncryptorInterface */
+    /**
+    * @var EncryptorInterface
+    */
     protected $encryptor;
-    /** * @param Context $context * @param EncryptorInterface $encryptor */
+    /**
+    * @param Context $context
+    * @param EncryptorInterface $encryptor
+    */
 
     public function __construct(Context $context, EncryptorInterface $encryptor)
     {
@@ -96,7 +101,6 @@ class Data extends AbstractHelper
     /**
      * @return string
      */
-
     public function isCouponUsage($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::COUPON_USAGES, $scope);

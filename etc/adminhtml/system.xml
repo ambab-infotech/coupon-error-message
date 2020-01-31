@@ -4,11 +4,11 @@
         <tab id="ambab" translate="label" sortOrder="500">
             <label>Ambab</label>
         </tab>
-        <section id="customcouponmsg" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="couponerrormessage" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Custom Coupon Error Message</label>
             <tab>ambab</tab>
-            <resource>Ambab_CouponErrorMessage::customcouponmsg_configuration</resource>
+            <resource>Ambab_CouponErrorMessage::couponerrormessage_configuration</resource>
             <group id="general" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>General Configuration</label>
                 <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">

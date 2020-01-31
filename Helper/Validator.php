@@ -34,8 +34,6 @@ use Magento\Framework\DataObjectFactory;
 use Magento\SalesRule\Model\Rule\CustomerFactory;
 use Magento\Quote\Model\Quote\Address;
 
-//use Magento\Framework\Serialize\Serializer\Json;
-
 class Validator extends AbstractHelper
 {
 
@@ -101,7 +99,6 @@ class Validator extends AbstractHelper
         DataObjectFactory $objectFactory,
         CustomerFactory $customerFactory,
         Address $address
-        // Json $serialize
     ) {
         parent::__construct($context);
         $this->_couponFactory = $couponFactory;
@@ -115,8 +112,13 @@ class Validator extends AbstractHelper
         $this->_objectFactory = $objectFactory;
         $this->_customerFactory = $customerFactory;
         $this->_address = $address;
-        // $this->_serialize = $serialize;
     }
+    /**
+    * Validate the coupon code
+    *
+    * @param str $couponCode
+    * @return bool
+    **/
     
     public function validate($couponCode)
     {
@@ -125,7 +127,6 @@ class Validator extends AbstractHelper
         $coupon->load($couponCode, 'code');
         
         /* check if coupon exit or not*/
-
         if (empty($coupon->getData())) {
             $msg = $this->_configData->isCouponExits();
             $msg = str_replace("%s", $couponCode, $msg);
@@ -133,7 +134,6 @@ class Validator extends AbstractHelper
         } else {
 
             // check for coupon expiry
-            
             $couponExpiry = $this->checkExpiry($coupon->getexpirationDate());
             if ($couponExpiry) {
                 $msg = $this->_configData->isCouponExpired();
@@ -175,10 +175,11 @@ class Validator extends AbstractHelper
         }
     }
 
-    /** check if coupon is expired or not
+    /**
+     * Check if coupon is expired or not
      *
+     * @param datetime $couponDate
      * @return bool
-     *
      **/
     protected function checkExpiry($couponDate)
     {
@@ -189,8 +190,10 @@ class Validator extends AbstractHelper
         return false;
     }
 
-    /** check if coupon is assigned to current customer group
-     * @param integer
+    /**
+     * Check if coupon is assigned to current customer group
+     *
+     * @param int $ruleId
      * @return bool
      *
      **/
@@ -209,10 +212,11 @@ class Validator extends AbstractHelper
         return false;
     }
 
-    /** check if coupon is applicable for current website
-     * @param integer
-     * @return bool
+    /**
+     * Check if coupon is applicable for current website
      *
+     * @param ruleId
+     * @return bool
      **/
     protected function validateCurrentWebsite($ruleId)
     {
@@ -225,10 +229,11 @@ class Validator extends AbstractHelper
         return false;
     }
 
-    /** check coupon usages
+    /**
+     * Check coupon usages
+     *
      * @param Magento\SalesRule\Model\CouponFactory
      * @return bool
-     *
      **/
     protected function validateCouponUsages(\Magento\SalesRule\Model\CouponFactory $coupon)
     {
@@ -266,10 +271,11 @@ class Validator extends AbstractHelper
         return false;
     }
 
-    /** check if coupon is validated condition
+    /**
+     * Check if coupon is validated condition
+     *
      * @param Magento\SalesRule\Model\CouponFactory
      * @return bool
-     *
      **/
     protected function validateCondition(\Magento\SalesRule\Model\CouponFactory $coupon)
     {

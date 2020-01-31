@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <customcouponmsg>
+        <couponerrormessage>
             <general>
                 <enable>0</enable>
                 <coupon_exist>'%s' coupon code is not valid</coupon_exist>
@@ -12,6 +12,6 @@ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
                 <coupon_usages>'%s' exceeded the number usages</coupon_usages>
                 <condition_fail>This coupon don't fulfill the coupon condition</condition_fail>
             </general>
-        </customcouponmsg>
+        </couponerrormessage>
     </default>
 </config>
