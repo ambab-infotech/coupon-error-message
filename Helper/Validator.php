@@ -102,7 +102,7 @@ class Validator extends AbstractHelper
         DataObjectFactory $objectFactory,
         CustomerFactory $customerFactory,
         Address $address
-       // Json $serialize
+        // Json $serialize
     ) {
         parent::__construct($context);
         $this->_couponFactory = $couponFactory;
@@ -182,10 +182,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is expired or not
-    *
-    * @return bool
-    *
-    **/
+     *
+     * @return bool
+     *
+     **/
     protected function checkExpiry($couponDate)
     {
         $now = $this->_date->date()->format('Y-m-d');
@@ -196,10 +196,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is assigned to current customer group
-    * @param integer
-    * @return bool
-    *
-    **/
+     * @param integer
+     * @return bool
+     *
+     **/
     protected function validateCustomerGroup($ruleId)
     {
         $customerGroup = 0;
@@ -216,10 +216,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is applicable for current website
-    * @param integer
-    * @return bool
-    *
-    **/
+     * @param integer
+     * @return bool
+     *
+     **/
     protected function validateCurrentWebsite($ruleId)
     {
         $currentWebsite = $this->_storeManager->getStore()->getWebsiteId();
@@ -232,10 +232,10 @@ class Validator extends AbstractHelper
     }
 
     /** check coupon usages
-    * @param Magento\SalesRule\Model\CouponFactory
-    * @return bool
-    *
-    **/
+     * @param Magento\SalesRule\Model\CouponFactory
+     * @return bool
+     *
+     **/
     protected function validateCouponUsages(\Magento\SalesRule\Model\CouponFactory $coupon)
     {
         // check entire usage limit
@@ -273,10 +273,10 @@ class Validator extends AbstractHelper
     }
 
     /** check if coupon is validated condition
-    * @param Magento\SalesRule\Model\CouponFactory
-    * @return bool
-    *
-    **/
+     * @param Magento\SalesRule\Model\CouponFactory
+     * @return bool
+     *
+     **/
     protected function validateCondition(\Magento\SalesRule\Model\CouponFactory $coupon)
     {
         $rule = $this->_rule->create()->load($coupon->getruleId());

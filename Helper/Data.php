@@ -46,8 +46,8 @@ class Data extends AbstractHelper
     }
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function isEnabled($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->isSetFlag(self::ERRORMESSAGE_ENABLED, $scope);
@@ -55,48 +55,48 @@ class Data extends AbstractHelper
 
         
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function isCouponExits($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::COUPON_EXIST, $scope);
     }
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function isConditionFail($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::CONDTION_FAILED, $scope);
     }
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function isCouponExpired($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::COUPON_EXPIRED, $scope);
     }
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function isCouponCustomerGroup($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::COUPON_CUSTOMER_GROUP, $scope);
     }
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function isCouponWebsite($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         return $this->scopeConfig->getValue(self::COUPON_WEBSITE_ID, $scope);
     }
 
     /**
-    * @return string
-    */
+     * @return string
+     */
 
     public function isCouponUsage($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {

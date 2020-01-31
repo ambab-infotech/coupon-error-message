@@ -49,8 +49,8 @@ class CheckoutCouponApply
     }
 
     /**
-    * this function runs before set for coupon api
-    */
+     * this function runs before set for coupon api
+     */
     public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
     {
         if ($this->_configData->isEnabled()) {
