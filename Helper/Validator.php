@@ -184,7 +184,7 @@ class Validator extends AbstractHelper
     protected function checkExpiry($couponDate)
     {
         $now = $this->_date->date()->format('Y-m-d');
-        if (!(empty($couponDate))&&strtotime($couponDate) < strtotime($now)) {
+        if (!(empty($couponDate)) && strtotime($couponDate) < strtotime($now)) {
             return true;
         }
         return false;
