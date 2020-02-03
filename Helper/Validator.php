@@ -184,7 +184,7 @@ class Validator extends AbstractHelper
     protected function checkExpiry($couponDate)
     {
         $now = $this->_date->date()->format('Y-m-d');
-        if (strtotime($couponDate) < strtotime($now)) {
+        if (!(empty($couponDate))&&strtotime($couponDate) < strtotime($now)) {
             return true;
         }
         return false;
@@ -235,7 +235,7 @@ class Validator extends AbstractHelper
      * @param Magento\SalesRule\Model\CouponFactory
      * @return bool
      **/
-    protected function validateCouponUsages(\Magento\SalesRule\Model\CouponFactory $coupon)
+    protected function validateCouponUsages(\Magento\SalesRule\Model\Coupon $coupon)
     {
         // check entire usage limit
         if ($coupon->getUsageLimit() && $coupon->getTimesUsed() >= $coupon->getUsageLimit()) {
@@ -277,7 +277,7 @@ class Validator extends AbstractHelper
      * @param Magento\SalesRule\Model\CouponFactory
      * @return bool
      **/
-    protected function validateCondition(\Magento\SalesRule\Model\CouponFactory $coupon)
+    protected function validateCondition(\Magento\SalesRule\Model\Coupon $coupon)
     {
         $rule = $this->_rule->create()->load($coupon->getruleId());
         $address = $this->_address;
