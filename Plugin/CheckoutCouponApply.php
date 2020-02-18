@@ -20,9 +20,9 @@
 
 namespace Ambab\CouponErrorMessage\Plugin;
 
-use Magento\Framework\Exception\LocalizedException;
-use Ambab\CouponErrorMessage\Helper\Validator as CouponValidator;
 use Ambab\CouponErrorMessage\Helper\Data as ConfigData;
+use Ambab\CouponErrorMessage\Helper\Validator as CouponValidator;
+use Magento\Framework\Exception\LocalizedException;
 
 class CheckoutCouponApply
 {
@@ -49,20 +49,31 @@ class CheckoutCouponApply
     }
 
     /**
-     * This function runs before set for coupon api, will validate coupon
+     * This function runs around the set function for coupon api, once the core function throws
+     * exception this function will catch and update the error message.
      *
      * @param \Magento\Quote\Model\CouponManagement $subject
+     * @param callable $proceed
      * @param int $cartId
      * @param string $couponCode
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function beforeSet(\Magento\Quote\Model\CouponManagement $subject, $cartId, $couponCode)
+    public function aroundSet(\Magento\Quote\Model\CouponManagement $subject, callable $proceed, $cartId, $couponCode)
     {
-        if ($this->_configData->isEnabled()) {
-            $msg = $this->_couponValidator->validate($couponCode);
-            if (!empty($msg)) {
-                throw new LocalizedException(__("%l", $msg));
+        $result = false;
+
+        try {
+            $result = $proceed($cartId, $couponCode);
+        } catch (\Exception $e) {
+            if ($this->_configData->isEnabled()) {
+                $msg = $this->_couponValidator->validate($couponCode);
+                if (!empty($msg)) {
+                    throw new LocalizedException(__("%l", $msg));
+                }
             }
+            throw $e;
         }
+
+        return $result;
     }
 }
