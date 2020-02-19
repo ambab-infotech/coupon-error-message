@@ -136,7 +136,6 @@ class Validator extends AbstractHelper
      **/
     public function validate($couponCode)
     {
-        $a = microtime(1);
         $msg="";
         $coupon = $this->_couponFactory->create();
         $coupon->load($couponCode, 'code');
