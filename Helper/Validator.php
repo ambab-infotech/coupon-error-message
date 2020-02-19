@@ -20,19 +20,21 @@
 
 namespace Ambab\CouponErrorMessage\Helper;
 
+use Ambab\CouponErrorMessage\Helper\Data as ConfigData;
+use Magento\Checkout\Model\Cart;
+use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\SalesRule\Model\CouponFactory;
-use Ambab\CouponErrorMessage\Helper\Data as ConfigData ;
+use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Customer\Model\Session as CustomerSession;
-use Magento\SalesRule\Model\RuleFactory;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\SalesRule\Model\ResourceModel\Coupon\UsageFactory;
-use Magento\Framework\DataObjectFactory;
-use Magento\SalesRule\Model\Rule\CustomerFactory;
 use Magento\Quote\Model\Quote\Address;
+use Magento\SalesRule\Model\CouponFactory;
+use Magento\SalesRule\Model\ResourceModel\Coupon\UsageFactory;
+use Magento\SalesRule\Model\Rule\CustomerFactory;
+use Magento\SalesRule\Model\RuleFactory;
+use Magento\SalesRule\Model\Utility;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Validator extends AbstractHelper
 {
@@ -49,6 +51,11 @@ class Validator extends AbstractHelper
 
     /**
      * @var \Magento\SalesRule\Model\RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var \Magento\SalesRule\Model\Rule
      */
     protected $_rule;
 
@@ -73,19 +80,22 @@ class Validator extends AbstractHelper
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Quote\Model\Quote\Item\AbstractItem
-     */
-    protected $_abstractItem;
-
-    /**
      * Array of conditions attached to the current rule.
      *
      * @var array
      */
     protected $_conditions = [];
 
-    protected $_serialize;
-     
+    /**
+     * @var \Magento\Checkout\Model\cart
+     */
+    protected $_cart;
+
+    /**
+     * @var \Magento\SalesRule\Model\Utility
+     */
+    protected $_utility;
+
     public function __construct(
         Context $context,
         CouponFactory $couponFactory,
@@ -93,12 +103,14 @@ class Validator extends AbstractHelper
         EncryptorInterface $encryptor,
         TimezoneInterface $date,
         CustomerSession $customerSession,
-        RuleFactory $rule,
+        RuleFactory $_ruleFactory,
         StoreManagerInterface $storeManager,
         UsageFactory $usage,
         DataObjectFactory $objectFactory,
         CustomerFactory $customerFactory,
-        Address $address
+        Address $address,
+        Utility $utility,
+        Cart $cart
     ) {
         parent::__construct($context);
         $this->_couponFactory = $couponFactory;
@@ -106,12 +118,14 @@ class Validator extends AbstractHelper
         $this->_encryptor = $encryptor;
         $this->_date = $date;
         $this->_customerSession = $customerSession;
-        $this->_rule = $rule;
+        $this->_ruleFactory = $_ruleFactory;
         $this->_storeManager =$storeManager;
         $this->_usage = $usage;
         $this->_objectFactory = $objectFactory;
         $this->_customerFactory = $customerFactory;
         $this->_address = $address;
+        $this->_utility = $utility;
+        $this->_cart = $cart;
     }
 
     /**
@@ -122,10 +136,11 @@ class Validator extends AbstractHelper
      **/
     public function validate($couponCode)
     {
+        $a = microtime(1);
         $msg="";
         $coupon = $this->_couponFactory->create();
         $coupon->load($couponCode, 'code');
-        
+
         /* check if coupon exit or not*/
         if (empty($coupon->getData())) {
             $msg = $this->_configData->isCouponExits();
@@ -133,8 +148,16 @@ class Validator extends AbstractHelper
             return $msg;
         } else {
 
+            // check for coupon status
+            $rule = $this->getRule($coupon->getRuleId());
+            if (!$rule->getIsActive()) {
+                $msg = $this->_configData->isCouponExits();
+                $msg = str_replace("%s", $couponCode, $msg);
+                return $msg;
+            }
+
             // check for coupon expiry
-            $couponExpiry = $this->checkExpiry($coupon->getexpirationDate());
+            $couponExpiry = $this->checkExpiry($coupon->getRuleId());
             if ($couponExpiry) {
                 $msg = $this->_configData->isCouponExpired();
                 $msg = str_replace("%s", $couponCode, $msg);
@@ -181,8 +204,10 @@ class Validator extends AbstractHelper
      * @param datetime $couponDate
      * @return bool
      **/
-    protected function checkExpiry($couponDate)
+    protected function checkExpiry($ruleId)
     {
+        $couponCodeData = $this->getRule($ruleId);
+        $couponDate = $couponCodeData->getToDate();
         $now = $this->_date->date()->format('Y-m-d');
         if (!(empty($couponDate)) && strtotime($couponDate) < strtotime($now)) {
             return true;
@@ -200,7 +225,7 @@ class Validator extends AbstractHelper
     protected function validateCustomerGroup($ruleId)
     {
         $customerGroup = 0;
-        $couponCodeData = $this->_rule->create()->load($ruleId);
+        $couponCodeData = $this->getRule($ruleId);
 
         if ($this->_customerSession->isLoggedIn()) {
             $customerGroup = $this->_customerSession->getCustomer()->getGroupId();
@@ -221,7 +246,7 @@ class Validator extends AbstractHelper
     protected function validateCurrentWebsite($ruleId)
     {
         $currentWebsite = $this->_storeManager->getStore()->getWebsiteId();
-        $couponCodeData = $this->_rule->create()->load($ruleId);
+        $couponCodeData = $this->getRule($ruleId);
         if (!in_array($currentWebsite, $couponCodeData->getWebsiteIds())) {
             return true;
         }
@@ -256,7 +281,7 @@ class Validator extends AbstractHelper
                 return true;
             }
         }
-        $rule = $this->_rule->create()->load($coupon->getruleId());
+        $rule = $this->getRule($coupon->getRuleId());
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             /** @var \Magento\SalesRule\Model\Rule\Customer $ruleCustomer */
@@ -279,12 +304,58 @@ class Validator extends AbstractHelper
      **/
     protected function validateCondition(\Magento\SalesRule\Model\Coupon $coupon)
     {
-        $rule = $this->_rule->create()->load($coupon->getruleId());
-        $address = $this->_address;
-        if (!empty($address) && !$rule->validate($address)) {
+        $rule = $this->getRule($coupon->getRuleId());
+        $quote = $this->getQuote();
+        $address = $quote->getShippingAddress();
+
+        // cart level check
+        $validate = $this->_utility->canProcessRule($rule, $address);
+
+        if (!$validate) {
             return true;
+        } else {
+
+            // Item level check
+            $items = $quote->getAllVisibleItems();
+            $validAction = false;
+            foreach ($items as $item) {
+                if ($validAction = $rule->getActions()->validate($item)) {
+                    $validAction = true;
+                }
+            }
+
+            if (!$validAction) {
+                return true;
+            }
         }
 
         return false;
+    }
+
+    /**
+     * Get Coupon Rule
+     *
+     * @param int $ruleId
+     * @return Magento\SalesRule\Model\Rule
+     **/
+    protected function getRule($ruleId)
+    {
+        if (empty($this->_rule)) {
+            $rule = $this->_ruleFactory->create()->load($ruleId);
+            if (!empty($rule)) {
+                $this->_rule = $rule;
+            }
+        }
+        return $this->_rule;
+    }
+
+    /**
+     * Get Current quote
+     *
+     * @return Magento\Quote\Model\Quote
+     **/
+    protected function getQuote()
+    {
+        return $this->_cart->getQuote();
     }
 }
