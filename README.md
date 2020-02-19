@@ -2,29 +2,26 @@
 
 ### Let customers know why their coupon code is not working
 
-A faulty Magento coupon code that isn’t working can result in decreased sales and more work for a customer service team, who must explain the error to customers each time.
+Coupons help websites increase sales. When a customer makes a purchase on the website and applies a coupon code to get a discount, it will display the default Magento error message "Coupon code is not valid" if the coupon does not fulfill the conditions. The default message is not self-explanatory which explains the reason for coupon failure. Coupon Error Message extension for Magento 2 allows an admin to specify an error message for each condition of the coupon shopping cart rules. When the condition is not passed through validation, an appropriate error message will be shown to a customer which will be configured in the backend. 
 
-Coupon Error Message extension for Magento 2 solves that and more. The extension allows Magento 2 store administrators to create, track, and display custom coupon error messages when customers attempt to apply a coupon code to their shopping cart, and for whatever reason, the discount cannot be applied.
+For example, a customer has a coupon code that will be applicable that should apply a 40% discount for orders that total $100 or more. So the customer adds products with the total amount of $80 to the shopping cart and tries to apply the 40% coupon code and, of course, he gets the error message "Coupon code is not valid". With the help of the Coupon Error Message module, the customer will receive the error message that is set by admin like "Cart does not fulfill the condition for coupon".
 
-## Features
+ 
 
-- Admin can set Enable/ Disable flag.
+## Feature Summary
+### Admin Can Set:
+- Enable/ Disable flag.  
+- Error message when coupon does not exist.  
+- Error message when coupon exists but is expired.  
+- Error message when a customer doesn't belong to the assigned customer group.  
+- Error message when the coupon is not applicable to the website.
+- Error message when the coupon was used more than it can be used.  
+- Error messages when coupon exists but do not apply to the cart rule conditions.  
+ 
 
-- Admin can set error message when coupon does not exist.
-
-- Admin can set error message when coupon exist but is expired.
-
-- Admin can set error message when customer doesn't belong to assigned customer group.
-
-- Admin can set error message when coupon is not applicable on website.
-
-- Admin can set error message when coupon was used more than it can be used.
-
-- Admin can set error message when coupon exist but do not apply to the cart rule conditions.
-
+### Benefits:
 - 100% open source.
-
-- Easy to install.
+- Easy to install.  
 
 
 ## Installation/ Uninstallation [Versions supported: 2.3.x onwards]
